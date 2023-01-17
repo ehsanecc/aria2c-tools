@@ -1,5 +1,13 @@
 import json, urllib3
 from time import sleep
+import argparse
+
+a = argparse.ArgumentParser("aria2c Re-Run Stopped(by Error) Downloads")
+a.add_argument('--host', '-u', type=str, required=True)
+a.add_argument('--port', '-p', type=int, default=6800)
+a.add_argument('--secret', '-s', type=str, default="")
+args = a.parse_args()
+
 
 class aria2rpc():
     secret = None
@@ -24,7 +32,7 @@ class aria2rpc():
             print(f"ERROR{rr['error']['code']}: {rr['error']['message']}")
             return None
 
-aria2caller = aria2rpc('192.168.0.13:6800', 'pero')
+aria2caller = aria2rpc(f"{args.host}:{args.port}", args.secret)
 
 while True:
     downloadState = len(aria2caller('tellActive')) == 0
