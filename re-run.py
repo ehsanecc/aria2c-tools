@@ -39,10 +39,13 @@ while True:
     stoppedOnes = aria2caller('tellStopped', 0, 1000)
     if stoppedOnes:
         for stoppedOne in stoppedOnes:
-            files = aria2caller('getFiles', stoppedOne['gid'])
-            aria2caller('removeDownloadResult', stoppedOne['gid'])
-            aria2caller('addUri', [stoppedOne['files'][0]['uris'][0]['uri']], {"always-resume":"true", "continue":"true", "dir":stoppedOne['dir'], "pause":"true" if downloadState == True else "false"})
-    
+            if stoppedOne['status'] != 'complete':
+                files = aria2caller('getFiles', stoppedOne['gid'])
+                aria2caller('removeDownloadResult', stoppedOne['gid'])
+                aria2caller('addUri', [stoppedOne['files'][0]['uris'][0]['uri']], {"always-resume":"true", "continue":"true", "dir":stoppedOne['dir'], "pause":"true" if downloadState == True else "false"})
+    else:
+        print('No stopped downloads found', end='\r')
+        
     sleep(60)
 
 # scenario
