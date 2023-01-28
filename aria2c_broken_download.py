@@ -33,9 +33,9 @@ from struct import pack, unpack
 
 MiB = 1048576
 
-a = argparse.ArgumentParser("aria2c HTTP(S)/FTP Broken Download Repair", description="Not repair, but find not downloaded parts (guessing) and (re)build <filename>.aria2 file again :)")
-a.add_argument(metavar='files', dest='files', nargs='+', type=str, help="Broken downloaded file(s)")
-args = a.parse_args()
+parser = argparse.ArgumentParser("aria2c HTTP(S)/FTP Broken Download Repair", description="Not repair, but find not downloaded parts (guessing) and (re)build <filename>.aria2 file again :)")
+parser.add_argument(metavar='files', dest='files', nargs='+', type=str, help="Broken downloaded file(s)")
+args = parser.parse_args()
 
 def create_control_file(file_address, bitfield):
     with open(file_address + '.aria2', "wb") as fo:
